@@ -24,12 +24,12 @@ ai-hub config set --profile default --openapi-base-url https://your-openapi-doma
 ai-hub config set-credentials --profile default
 ```
 
-Read [`_shared/preflight.md`](_shared/preflight.md) before an authenticated or state-changing workflow.
+Read [`_shared/preflight.md`](_shared/preflight.md) only for first-time setup, a profile change, or a configuration/credential error. When a profile is already configured, execute the focused command directly.
 
 ## Format and safety
 
 - Every `SKILL.md` uses only `name` and `description` in its YAML frontmatter.
 - Detailed command parameter rules and examples are located in the focused Skill's `references/` directory.
 - Read-only commands can run after parameter validation.
-- A write must produce its preview, then stop and wait for a new, explicit user confirmation. Agents must never supply that confirmation themselves.
+- A write must produce its preview and exit. After a new explicit user message, invoke `ai-hub confirm` with its confirmation ID and that message. Agents must never supply or infer that confirmation.
 - MCP is a separate integration surface. These Skills describe CLI workflows only.
