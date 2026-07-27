@@ -28,7 +28,7 @@ Read [`_shared/preflight.md`](_shared/preflight.md) only for first-time setup, a
 
 ## Format and safety
 
-- Every `SKILL.md` uses only `name` and `description` in its YAML frontmatter.
+- Every `SKILL.md` uses `name`, `version`, and `description` in its YAML frontmatter.
 - Detailed command parameter rules and examples are located in the focused Skill's `references/` directory.
 - Read-only commands can run after parameter validation.
 - A write must produce its preview and exit. After a new explicit user message, invoke `ai-hub confirm` with its confirmation ID and that message. Agents must never supply or infer that confirmation.

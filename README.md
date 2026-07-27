@@ -50,7 +50,7 @@ After this repository is published, install the complete pack with your Skills-c
 npx skills add <github-owner>/ai-hub-agent-skills
 ```
 
-Clients that do not support `npx skills` can load individual folders under [`skills/`](skills/) directly. Each Skill uses portable frontmatter containing only `name` and `description`, with detailed CLI guidance in `references/`.
+Clients that do not support `npx skills` can load individual folders under [`skills/`](skills/) directly. Each Skill uses portable frontmatter containing `name`, `version`, and `description`, with detailed CLI guidance in `references/`.
 
 ## Repository layout
 
