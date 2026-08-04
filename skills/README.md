@@ -11,7 +11,7 @@ Pre-built Skills for AI coding agents to operate supported AI Hub spot-account w
 | [`ai-hub-spot`](ai-hub-spot/SKILL.md) | Routes supported market, account, order, wallet, and sub-account workflows. | Varies |
 | [`ai-hub-spot-common`](ai-hub-spot-common/SKILL.md) | Public spot market data: connectivity, time, symbols, tickers, depth, trades, and candles. | No |
 | [`ai-hub-spot-order`](ai-hub-spot-order/SKILL.md) | Spot order validation, retrieval, placement, and cancellation. | Yes |
-| [`ai-hub-spot-account`](ai-hub-spot-account/SKILL.md) | Retrieves one spot-asset balance. | Yes |
+| [`ai-hub-spot-account`](ai-hub-spot-account/SKILL.md) | Retrieves one spot-asset balance or a bounded non-zero balance overview. | Yes |
 | [`ai-hub-spot-deposit-withdraw`](ai-hub-spot-deposit-withdraw/SKILL.md) | Wallet assets, deposit and withdrawal information, transfers, and withdrawals. | Yes |
 | [`ai-hub-spot-sub-account`](ai-hub-spot-sub-account/SKILL.md) | Supported sub-account information and operations. | Yes |
 
