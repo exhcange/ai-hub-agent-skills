@@ -1,6 +1,6 @@
 # AI Hub Agent Skills
 
-English-language Skills for AI coding agents that operate supported AI Hub spot-account workflows through the [`ai-hub`](https://www.npmjs.com/package/@aihubspot/agent-trade-cli) CLI.
+English-language Skills for AI coding agents that operate supported AI Hub spot-account and isolated/cross spot-margin workflows through the [`ai-hub`](https://www.npmjs.com/package/@aihubspot/agent-trade-cli) CLI.
 
 Each Skill is a self-contained Markdown document with YAML frontmatter. It tells an agent when to activate, which CLI commands to use, and which safety rules apply. The Skills do not expose or invoke MCP tools; the separately installed local MCP server shares the same confirmation and error-handling rules.
 
@@ -8,9 +8,9 @@ Each Skill is a self-contained Markdown document with YAML frontmatter. It tells
 
 | Skill | Description | Authentication |
 | --- | --- | :---: |
-| [`ai-hub-spot`](skills/ai-hub-spot/SKILL.md) | Routes supported market, account, order, wallet, and sub-account workflows to the focused Skill. | Varies |
+| [`ai-hub-spot`](skills/ai-hub-spot/SKILL.md) | Routes supported market, account, spot/spot-margin order, wallet, and sub-account workflows to the focused Skill. | Varies |
 | [`ai-hub-spot-common`](skills/ai-hub-spot-common/SKILL.md) | Retrieves public spot market data: connectivity, server time, symbols, tickers, depth, trades, and candles. | No |
-| [`ai-hub-spot-order`](skills/ai-hub-spot-order/SKILL.md) | Tests, retrieves, lists, places, and cancels supported spot orders. | Yes |
+| [`ai-hub-spot-order`](skills/ai-hub-spot-order/SKILL.md) | Tests, retrieves, lists, places, and cancels supported spot and isolated/cross spot-margin orders. | Yes |
 | [`ai-hub-spot-account`](skills/ai-hub-spot-account/SKILL.md) | Retrieves one spot-asset balance. | Yes |
 | [`ai-hub-spot-deposit-withdraw`](skills/ai-hub-spot-deposit-withdraw/SKILL.md) | Retrieves wallet information and manages supported transfers, deposits, and withdrawals. | Yes |
 | [`ai-hub-spot-sub-account`](skills/ai-hub-spot-sub-account/SKILL.md) | Retrieves and manages supported sub-account information and operations. | Yes |
