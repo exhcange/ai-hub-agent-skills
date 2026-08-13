@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-Pre-built Skills for AI coding agents to operate supported AI Hub spot-account and isolated/cross spot-margin workflows through the `ai-hub` CLI. Each Skill is a Markdown document with portable YAML frontmatter that defines its trigger and operating instructions.
+Pre-built Skills for AI coding agents to operate supported AI Hub spot-account and isolated/cross spot-margin workflows through AI Hub MCP or the `ai-hub` CLI. Each Skill is a Markdown document with portable YAML frontmatter that defines its trigger and operating instructions.
 
 ## Skills
 
@@ -32,4 +32,4 @@ Read [`_shared/preflight.md`](_shared/preflight.md) only for first-time setup, a
 - Detailed command parameter rules and examples are located in the focused Skill's `references/` directory.
 - Read-only commands can run after parameter validation.
 - A write must produce its preview and exit. After a new explicit user message, invoke `ai-hub confirm` with its confirmation ID and that message. Agents must never supply or infer that confirmation.
-- MCP is a separate integration surface. These Skills describe CLI workflows only.
+- When MCP and CLI are both available, use the exact matching MCP Tool first. Fall back to CLI only when MCP is unavailable.

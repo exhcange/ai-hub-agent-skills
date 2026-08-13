@@ -1,8 +1,8 @@
 # AI Hub Agent Skills
 
-English-language Skills for AI coding agents that operate supported AI Hub spot-account and isolated/cross spot-margin workflows through the [`ai-hub`](https://www.npmjs.com/package/@aihubspot/agent-trade-cli) CLI.
+English-language Skills for AI coding agents that operate supported AI Hub spot-account and isolated/cross spot-margin workflows through AI Hub MCP or the [`ai-hub`](https://www.npmjs.com/package/@aihubspot/agent-trade-cli) CLI.
 
-Each Skill is a self-contained Markdown document with YAML frontmatter. It tells an agent when to activate, which CLI commands to use, and which safety rules apply. The Skills do not expose or invoke MCP tools; the separately installed local MCP server shares the same confirmation and error-handling rules.
+Each Skill is a self-contained Markdown document with YAML frontmatter. It tells an agent when to activate, which MCP Tool or CLI command to use, and which safety rules apply. When both integrations are installed, the Skill uses MCP first and falls back to CLI only when MCP is unavailable.
 
 ## Skills
 
@@ -17,7 +17,7 @@ Each Skill is a self-contained Markdown document with YAML frontmatter. It tells
 
 ## Requirements
 
-- Node.js 18 or later.
+- Node.js 20 or later.
 - Install the AI Hub CLI:
 
   ```bash
@@ -56,14 +56,16 @@ Clients that do not support `npx skills` can load individual folders under [`ski
 
 ```text
 skills/
-├── _shared/                         # Authentication, confirmation, and error rules
-├── ai-hub-spot/                     # Router Skill
+├── _shared/                         # Canonical shared source maintained by the repository
+├── ai-hub-spot/                     # Router Skill with self-contained references/
 ├── ai-hub-spot-common/              # Public market data
 ├── ai-hub-spot-order/               # Spot orders
 ├── ai-hub-spot-account/             # Account reads and transfers
 ├── ai-hub-spot-deposit-withdraw/    # Wallet workflows
-└── ai-hub-spot-sub-account/         # Sub-account workflows
+└── ai-hub-spot-sub-account/         # Sub-account workflows with self-contained references/
 ```
+
+Every installable Skill copies the shared routing, preflight, and error-diagnosis files into its own `references/` directory. `_shared/` is the repository source of truth, but no installed Skill depends on a parent-directory runtime link.
 
 ## License
 
