@@ -1,6 +1,6 @@
 ---
 name: ai-hub-spot-order
-version: "0.1.20"
+version: "0.1.30"
 description: Use this Skill when a user asks to retrieve or place supported AI Hub spot or isolated/cross spot-margin orders. Use the local ai-hub CLI with a configured credential profile. Never route to derivatives or accept an explicit leverage multiplier. Every state-changing action requires an exact preview followed by a new manual user confirmation.
 ---
 
@@ -10,7 +10,7 @@ Use this Skill only for supported spot and spot-margin order operations. Do not 
 
 ## Spot Margin Boundary
 
-- Margin commands mean isolated or cross **spot margin only**. Never offer perpetuals, long/short positions, or another non-spot route.
+- Margin commands mean isolated or cross **spot margin only**. Route explicit Futures or long/short-position requests to ai-hub-futures and the futures profile; never submit them through spot tools.
 - An explicit leverage multiplier such as `10x` is not accepted by the OpenAPI order endpoint. Do not reinterpret it as an order amount, margin mode, or contract request.
 - For a request such as “open BTC at 10x”, explain that explicit leverage multiples are unsupported, state that only spot margin is available, and request the supported fields: isolated or cross mode, symbol, BUY or SELL, quantity or quote amount, and order type.
 - Every spot-margin write requires an explicit mode: `--isolated true` selects isolated margin and `--isolated false` selects cross margin. Never rely on an upstream default.

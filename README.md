@@ -1,71 +1,61 @@
 # AI Hub Agent Skills
 
-English-language Skills for AI coding agents that operate supported AI Hub spot-account and isolated/cross spot-margin workflows through AI Hub MCP or the [`ai-hub`](https://www.npmjs.com/package/@aihubspot/agent-trade-cli) CLI.
-
-Each Skill is a self-contained Markdown document with YAML frontmatter. It tells an agent when to activate, which MCP Tool or CLI command to use, and which safety rules apply. When both integrations are installed, the Skill uses MCP first and falls back to CLI only when MCP is unavailable.
+Release: **0.1.30**. English-language Skills for supported AI Hub spot, isolated/cross spot-margin, and Futures workflows. When MCP and CLI are both installed, use the matching MCP tool first; use CLI only when MCP is unavailable before dispatch.
 
 ## Skills
 
-| Skill | Description | Authentication |
+| Skill | Scope | Authentication |
 | --- | --- | :---: |
-| [`ai-hub-spot`](skills/ai-hub-spot/SKILL.md) | Routes supported market, account, spot/spot-margin order, wallet, and sub-account workflows to the focused Skill. | Varies |
-| [`ai-hub-spot-common`](skills/ai-hub-spot-common/SKILL.md) | Retrieves public spot market data: connectivity, server time, symbols, tickers, depth, trades, and candles. | No |
-| [`ai-hub-spot-order`](skills/ai-hub-spot-order/SKILL.md) | Tests, retrieves, lists, places, and cancels supported spot and isolated/cross spot-margin orders. | Yes |
-| [`ai-hub-spot-account`](skills/ai-hub-spot-account/SKILL.md) | Retrieves one spot-asset balance. | Yes |
-| [`ai-hub-spot-deposit-withdraw`](skills/ai-hub-spot-deposit-withdraw/SKILL.md) | Retrieves wallet information and manages supported transfers, deposits, and withdrawals. | Yes |
-| [`ai-hub-spot-sub-account`](skills/ai-hub-spot-sub-account/SKILL.md) | Retrieves and manages supported sub-account information and operations. | Yes |
+| [`ai-hub-spot`](skills/ai-hub-spot/SKILL.md) | Routes spot workflows to focused Skills. | Varies |
+| [`ai-hub-spot-common`](skills/ai-hub-spot-common/SKILL.md) | Public spot markets, prices, depth, trades, and candles. | No |
+| [`ai-hub-spot-account`](skills/ai-hub-spot-account/SKILL.md) | Spot balances and bounded asset overviews. | Yes |
+| [`ai-hub-spot-order`](skills/ai-hub-spot-order/SKILL.md) | Spot and isolated/cross spot-margin orders and cancellations. | Yes |
+| [`ai-hub-spot-deposit-withdraw`](skills/ai-hub-spot-deposit-withdraw/SKILL.md) | Wallet assets, transfers, deposit/withdrawal information, and withdrawals. | Yes |
+| [`ai-hub-spot-sub-account`](skills/ai-hub-spot-sub-account/SKILL.md) | Supported sub-account information and operations. | Yes |
+| [`ai-hub-futures`](skills/ai-hub-futures/SKILL.md) | Routes Futures workflows and separates spot/Futures balance results. | Varies |
+| [`ai-hub-futures-common`](skills/ai-hub-futures-common/SKILL.md) | Futures connectivity, contracts, ticker, index, depth, and candles. | No |
+| [`ai-hub-futures-account`](skills/ai-hub-futures-account/SKILL.md) | Futures assets, positions, historical PnL, and account transactions. | Yes |
+| [`ai-hub-futures-order`](skills/ai-hub-futures-order/SKILL.md) | Futures order queries, fills, and supported cancellations. | Yes |
+| [`ai-hub-futures-trade`](skills/ai-hub-futures-trade/SKILL.md) | Ordinary, conditional, TP/SL orders, and approved trading settings. | Yes |
+| [`ai-hub-futures-transfer`](skills/ai-hub-futures-transfer/SKILL.md) | Spot-routed spot/Futures transfer queries and confirmed transfers. | Yes |
 
-## Requirements
+## Install
 
-- Node.js 20 or later.
-- Install the AI Hub CLI:
-
-  ```bash
-  npm install -g @aihubspot/agent-trade-cli
-  ```
-
-- Create a local SaaS-tenant profile before an authenticated workflow:
-
-  ```bash
-  ai-hub config init
-  ai-hub config set --profile default --openapi-base-url https://your-openapi-domain
-  ai-hub config set-credentials --profile default
-  ```
-
-The CLI prompts for credentials locally. Never place API keys, secret keys, tenant endpoints, or local configuration files in a prompt, Skill file, or source-control repository.
-
-## Safety boundary
-
-- Read-only commands may run after the necessary parameters and profile are verified.
-- Every state-changing command first produces an exact preview.
-- After the preview, the agent must stop. It cannot generate or submit the confirmation itself.
-- The user must provide a new, explicit confirmation before the local CLI or MCP client performs the action.
-- Do not automatically retry a failed or uncertain write; query its result or history first.
-
-## Install Skills
-
-After this repository is published, install the complete pack with your Skills-compatible client. For example:
+Requires Node.js 20 or later.
 
 ```bash
-npx skills add <github-owner>/ai-hub-agent-skills
+npm install -g @aihubspot/agent-trade-cli@0.1.30 @aihubspot/agent-trade-mcp@0.1.30
+npx skills add exhcange/ai-hub-agent-skills
 ```
 
-Clients that do not support `npx skills` can load individual folders under [`skills/`](skills/) directly. Each Skill uses portable frontmatter containing `name`, `version`, and `description`, with detailed CLI guidance in `references/`.
+Install Skills and register MCP separately. Create the fixed product profiles before authenticated workflows:
+
+```bash
+ai-hub config init
+ai-hub config set --profile spot --product spot --openapi-base-url https://your-spot-openapi-domain
+ai-hub config set-credentials --profile spot
+ai-hub config set --profile futures --product futures --openapi-base-url https://your-futures-openapi-domain
+ai-hub config set-credentials --profile futures
+```
+
+Credentials are entered locally. Never request or expose API credentials in chat or commit local profile files. Register each product's MCP server with its corresponding profile. Use `--read-only` when only queries are required. Transfers use the spot profile and require operator-verified account pairing before writes.
+
+See the [client repository](https://github.com/exhcange/ai-hub-agent-trade) and [operating guide](https://exchangedocsv2.gitbook.io/aihub) for MCP setup and supported commands.
+
+## Execution rules
+
+- Preserve spot and Futures product isolation. An unspecified balance query returns separate components without arithmetic totals; a failed query is not zero balance.
+- Every state-changing operation produces a preview. The agent then stops and waits for a NEW explicit user message before confirmation.
+- Never automatically retry a failed or uncertain write, and never switch from MCP to CLI to resend it.
+- For unresolved writes, obtain authoritative evidence and retain the unresolved state until verified resolution.
+- Exchange-managed conditional and TP/SL orders do not require an Agent price watcher. Do not promise OCO behavior.
+- Public recent Futures trades, ordinary Futures batch placement, selected ordinary batch cancellation, ticker_all, WebSocket, and strategy/copy/robot operations are excluded.
 
 ## Repository layout
 
-```text
-skills/
-├── _shared/                         # Canonical shared source maintained by the repository
-├── ai-hub-spot/                     # Router Skill with self-contained references/
-├── ai-hub-spot-common/              # Public market data
-├── ai-hub-spot-order/               # Spot orders
-├── ai-hub-spot-account/             # Account reads and transfers
-├── ai-hub-spot-deposit-withdraw/    # Wallet workflows
-└── ai-hub-spot-sub-account/         # Sub-account workflows with self-contained references/
-```
+The pack contains six `ai-hub-spot*` and six `ai-hub-futures*` directories. Each installable directory includes its own `SKILL.md` and operating instructions. Spot Skills carry local `references/` copies of shared guidance; Futures Skills include their execution boundaries directly. No installed Skill depends on a parent `_shared` directory.
 
-Every installable Skill copies the shared routing, preflight, and error-diagnosis files into its own `references/` directory. `_shared/` is the repository source of truth, but no installed Skill depends on a parent-directory runtime link.
+Skill version declarations follow the source pack's existing format. Keep this pack aligned with the client repository's `skills/` directory when releasing.
 
 ## License
 

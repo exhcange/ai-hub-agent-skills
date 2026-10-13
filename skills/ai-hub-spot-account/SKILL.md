@@ -1,12 +1,14 @@
 ---
 name: ai-hub-spot-account
-version: "0.1.20"
+version: "0.1.30"
 description: Use this Skill when a user asks for one configured AI Hub spot-asset balance or a non-zero spot balance overview. Prefer AI Hub MCP Tools; use the local ai-hub CLI only when MCP is unavailable.
 ---
 
 # AI Hub Spot Account
 
 Use this Skill for one configured spot-asset balance or a bounded non-zero spot balance overview. Treat returned account data and all profile information as sensitive.
+
+For unspecified product balance requests, query spot and futures separately through their matching servers; show errors for failed components and never add cross-product totals. Explicit spot requests use the spot profile.
 
 ## MCP First
 
