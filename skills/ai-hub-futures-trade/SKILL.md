@@ -1,10 +1,15 @@
 ---
 name: ai-hub-futures-trade
-version: "0.1.30"
+version: "0.1.31"
 description: Prepare Futures ordinary, conditional and TP/SL orders and trading settings.
 ---
 
 # Ai Hub Futures Trade
+
+## Unified merchant connections
+
+A single MCP server may support both Spot and Futures. Select the configured merchant by `system_get_capabilities`, including `products` and `productAccess`; never infer its product from the server name. Use product-specific tools on that same server. For CLI fallback, use the selected unified merchant profile for either product, replacing legacy `--profile spot` / `--profile futures` examples below. Never switch merchant profiles to recover from a failed request. Existing separate product profiles remain supported.
+
 
 Use `futures_prepare_place_order`, `futures_prepare_place_condition_order`, `futures_prepare_place_profit_loss_order`, `futures_prepare_set_position_mode`, `futures_prepare_set_margin_mode`, `futures_prepare_adjust_position_margin`, and `futures_prepare_set_leverage`. CLI uses `ai-hub futures <operation> --profile futures`.
 

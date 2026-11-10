@@ -1,10 +1,15 @@
 ---
 name: ai-hub-futures-order
-version: "0.1.30"
+version: "0.1.31"
 description: Query Futures orders and fills, or prepare ordinary and trigger cancellations.
 ---
 
 # Ai Hub Futures Order
+
+## Unified merchant connections
+
+A single MCP server may support both Spot and Futures. Select the configured merchant by `system_get_capabilities`, including `products` and `productAccess`; never infer its product from the server name. Use product-specific tools on that same server. For CLI fallback, use the selected unified merchant profile for either product, replacing legacy `--profile spot` / `--profile futures` examples below. Never switch merchant profiles to recover from a failed request. Existing separate product profiles remain supported.
+
 
 Read tools: `futures_order_detail`, `futures_open_orders`, `futures_order_history`, `futures_my_trades`, `futures_trigger_orders`. CLI uses `ai-hub futures <operation> --profile futures`.
 

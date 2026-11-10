@@ -1,10 +1,15 @@
 ---
 name: ai-hub-futures-common
-version: "0.1.30"
+version: "0.1.31"
 description: Query Futures contracts, rules and public market data through AI Hub.
 ---
 
 # Ai Hub Futures Common
+
+## Unified merchant connections
+
+A single MCP server may support both Spot and Futures. Select the configured merchant by `system_get_capabilities`, including `products` and `productAccess`; never infer its product from the server name. Use product-specific tools on that same server. For CLI fallback, use the selected unified merchant profile for either product, replacing legacy `--profile spot` / `--profile futures` examples below. Never switch merchant profiles to recover from a failed request. Existing separate product profiles remain supported.
+
 
 Use `futures_ping`, `futures_time`, `futures_contracts`, `futures_depth`, `futures_ticker`, `futures_index`, and `futures_klines`. CLI equivalents are `ai-hub futures ping`, `time`, `contracts`, or `market depth|ticker|index|klines`, with `--profile futures`.
 

@@ -1,10 +1,15 @@
 ---
 name: ai-hub-spot-deposit-withdraw
-version: "0.1.30"
+version: "0.1.31"
 description: Use this Skill when a user asks about AI Hub wallet assets, deposit history or addresses, withdrawal addresses or history, transferable assets, wallet transfer history, wallet transfers, or withdrawals. Use the local ai-hub CLI with a configured credential profile. Wallet transfers and withdrawals require the mandatory preview and new manual confirmation boundary.
 ---
 
 # AI Hub Deposits and Withdrawals
+
+## Unified merchant connections
+
+A single MCP server may support both Spot and Futures. Select the configured merchant by `system_get_capabilities`, including `products` and `productAccess`; never infer its product from the server name. Use product-specific tools on that same server. For CLI fallback, use the selected unified merchant profile for either product, replacing legacy `--profile spot` / `--profile futures` examples below. Never switch merchant profiles to recover from a failed request. Existing separate product profiles remain supported.
+
 
 Use this Skill for supported wallet operations. Treat asset balances, addresses, and transaction history as sensitive user data. Do not fabricate an address, network detail, account type, or transfer direction.
 
